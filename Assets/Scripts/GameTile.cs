@@ -52,6 +52,8 @@ public class GameTile : MonoBehaviour {
 
 	public GameTile GrowPathWest () => GrowPathTo(west, Direction.East);
 
+
+    //point neighbor toward this tile
 	GameTile GrowPathTo (GameTile neighbor, Direction direction) {
 		Debug.Assert(HasPath, "No path!");
 		if (neighbor == null || neighbor.HasPath) {
@@ -70,6 +72,7 @@ public class GameTile : MonoBehaviour {
 		arrow.gameObject.SetActive(false);
 	}
 
+    //drive arrow textures.
 	public void ShowPath () {
 		if (distance == 0) {
 			arrow.gameObject.SetActive(false);
@@ -89,6 +92,8 @@ public class GameTile : MonoBehaviour {
 		southRotation = Quaternion.Euler(90f, 180f, 0f),
 		westRotation = Quaternion.Euler(90f, 270f, 0f);
 
+
+    // record relationships with neighbors
 	public static void MakeEastWestNeighbors (GameTile east, GameTile west) {
 		Debug.Assert(
 			west.east == null && east.west == null, "Redefined neighbors!"
