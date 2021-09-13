@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SML Scenario
   m_EditorClassIdentifier: 
   cycles: 3
-  cycleSpeedUp: 0.5
+  cycleSpeedUp: 0.78
   waves:
   - {fileID: 11400000, guid: a6ac2142f54694decb9a8d770fe93598, type: 2}
-  - {fileID: 11400000, guid: f7e01c7e0a1a148a38d52d560505efd4, type: 2}
+  - {fileID: 11400000, guid: a6ac2142f54694decb9a8d770fe93598, type: 2}

@@ -33,6 +33,7 @@ public class EnemySpawnSequence {
 		}
 
 		public float Progress (float deltaTime) {
+            //cool down is the stall between each enemy
 			cooldown += deltaTime;
 			while (cooldown >= sequence.cooldown) {
 				cooldown -= sequence.cooldown;
@@ -40,6 +41,7 @@ public class EnemySpawnSequence {
 					return cooldown;
 				}
 				count += 1;
+                //here to really spawn enemy
 				Game.SpawnEnemy(sequence.factory, sequence.type);
 			}
 			return -1f;

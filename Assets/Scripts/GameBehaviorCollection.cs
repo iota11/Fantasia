@@ -20,6 +20,7 @@ public class GameBehaviorCollection {
 
 	public void GameUpdate () {
 		for (int i = 0; i < behaviors.Count; i++) {
+            //trigger behavior gameUpdate()
 			if (!behaviors[i].GameUpdate()) {
 				int lastIndex = behaviors.Count - 1;
 				behaviors[i] = behaviors[lastIndex];

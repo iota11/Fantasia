@@ -19,10 +19,12 @@ public class LaserTower : Tower {
 	public override TowerType TowerType => TowerType.Laser;
 
 	public override void GameUpdate () {
+        //if could find or reach a target then shoot
 		if (TrackTarget(ref target) || AcquireTarget(out target)) {
 			Shoot();
 		}
 		else {
+            //or scale it down to invisible
 			laserBeam.localScale = Vector3.zero;
 		}
 	}
@@ -37,7 +39,7 @@ public class LaserTower : Tower {
 		laserBeam.localScale = laserBeamScale;
 		laserBeam.localPosition =
 			turret.localPosition + 0.5f * d * laserBeam.forward;
-
+        // cause enemy to damage
 		target.Enemy.ApplyDamage(damagePerSecond * Time.deltaTime);
 	}
 }

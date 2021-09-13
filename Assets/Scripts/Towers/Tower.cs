@@ -7,6 +7,7 @@ public abstract class Tower : GameTileContent {
 
 	public abstract TowerType TowerType { get; }
 
+    //pull out a target from buffer
 	protected bool AcquireTarget (out TargetPoint target) {
 		if (TargetPoint.FillBuffer(transform.localPosition, targetingRange)) {
 			target = TargetPoint.RandomBuffered;
@@ -16,6 +17,7 @@ public abstract class Tower : GameTileContent {
 		return false;
 	}
 
+    // To decide whether tower could reach target or not
 	protected bool TrackTarget (ref TargetPoint target) {
 		if (target == null || !target.Enemy.IsValidTarget) {
 			return false;

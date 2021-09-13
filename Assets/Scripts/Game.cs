@@ -72,7 +72,7 @@ public class Game : MonoBehaviour {
 		board.Initialize(boardSize, tileContentFactory);
 		board.ShowGrid = true;
 		activeScenario = scenario.Begin();
-	}
+	} 
 
 	void BeginNewGame () {
 		playerHealth = startingPlayerHealth;
@@ -142,6 +142,8 @@ public class Game : MonoBehaviour {
 		nonEnemies.GameUpdate();
 	}
 
+
+    //place destination or spawnPoints
 	void HandleAlternativeTouch () {
 		GameTile tile = board.GetTile(TouchRay);
 		if (tile != null) {
@@ -154,6 +156,7 @@ public class Game : MonoBehaviour {
 		}
 	}
 
+    //place tower or wall
 	void HandleTouch () {
 		GameTile tile = board.GetTile(TouchRay);
 		if (tile != null) {
