@@ -82,29 +82,45 @@ public class Enemy : GameBehavior {
 			return true;
 		}
 
-		progress += Time.deltaTime * progressFactor;
-		while (progress >= 1f) {
-			if (tileTo == null) {
-				Game.EnemyReachedDestination();
-				animator.PlayOutro();
-				targetPointCollider.enabled = false;
-				return true;
-			}
-			progress = (progress - 1f) / progressFactor;
-			PrepareNextState();
-			progress *= progressFactor;
-		}
-		if (directionChange == DirectionChange.None) {
-			transform.localPosition =
-				Vector3.LerpUnclamped(positionFrom, positionTo, progress);
-		}
-		else {
-			float angle = Mathf.LerpUnclamped(
-				directionAngleFrom, directionAngleTo, progress
-			);
-			transform.localRotation = Quaternion.Euler(0f, angle, 0f);
-		}
-		return true;
+        progress += 0;
+        if (true)
+        {
+            if (tileFrom.TowerContent.Type == GameTileContentType.Empty)
+            {
+                progress += Time.deltaTime * progressFactor;
+            }
+        }
+       
+        //progress >=1 means "locomotion achieve current goal", prepare for next goal plz
+        //progress is always ++
+        while (progress >= 1f)
+        {
+            if (tileTo == null)
+            {
+                Game.EnemyReachedDestination();
+                animator.PlayOutro();
+                targetPointCollider.enabled = false;
+                return true;
+            }
+            progress = (progress - 1f) / progressFactor;
+            PrepareNextState();
+            progress *= progressFactor;
+        }
+
+        //lerp the animation to move or to rotate
+        if (directionChange == DirectionChange.None)
+        {
+            transform.localPosition =
+                Vector3.LerpUnclamped(positionFrom, positionTo, progress);
+        }
+        else
+        {
+            float angle = Mathf.LerpUnclamped(
+                directionAngleFrom, directionAngleTo, progress
+            );
+            transform.localRotation = Quaternion.Euler(0f, angle, 0f);
+        }
+        return true;
 	}
 
 	public override void Recycle () {
@@ -147,8 +163,11 @@ public class Enemy : GameBehavior {
 			return;
 		}
 		positionTo = tileFrom.ExitPoint;
+        //compare current direction and the next direction
 		directionChange = direction.GetDirectionChangeTo(tileFrom.PathDirection);
+        //get the next direction
 		direction = tileFrom.PathDirection;
+        //update the current direction
 		directionAngleFrom = directionAngleTo;
 		switch (directionChange) {
 			case DirectionChange.None: PrepareForward(); break;
@@ -167,14 +186,17 @@ public class Enemy : GameBehavior {
 
 	void PrepareTurnRight () {
 		directionAngleTo = directionAngleFrom + 90f;
+        // r = pathoffset - 0.5
 		model.localPosition = new Vector3(pathOffset - 0.5f, 0f);
+        //pivot location
 		transform.localPosition = positionFrom + direction.GetHalfVector();
 		progressFactor = speed / (Mathf.PI * 0.5f * (0.5f - pathOffset));
 	}
 
 	void PrepareTurnLeft () {
 		directionAngleTo = directionAngleFrom - 90f;
-		model.localPosition = new Vector3(pathOffset + 0.5f, 0f);
+        // r = pathoffset +0.5
+        model.localPosition = new Vector3(pathOffset + 0.5f, 0f);
 		transform.localPosition = positionFrom + direction.GetHalfVector();
 		progressFactor = speed / (Mathf.PI * 0.5f * (0.5f + pathOffset));
 	}

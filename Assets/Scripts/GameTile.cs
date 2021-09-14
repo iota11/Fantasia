@@ -10,6 +10,8 @@ public class GameTile : MonoBehaviour {
 	int distance;
 
 	GameTileContent content;
+    //record tower
+    GameTileContent towerContent;
 
 	public GameTileContent Content {
 		get => content;
@@ -23,7 +25,26 @@ public class GameTile : MonoBehaviour {
 		}
 	}
 
-	public Direction PathDirection { get; private set; }
+    public GameTileContent TowerContent
+    {
+        get => towerContent;
+        set
+        {
+            Debug.Assert(value != null, "Null assigned to content!");
+            if (towerContent != null)
+            {
+                towerContent.Recycle();
+            }
+            towerContent = value;
+            towerContent.transform.localPosition = transform.localPosition;
+        }
+    }
+
+
+
+
+
+    public Direction PathDirection { get; private set; }
 
 	public Vector3 ExitPoint { get; private set; }
 

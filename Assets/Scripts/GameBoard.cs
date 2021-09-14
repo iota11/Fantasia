@@ -97,9 +97,10 @@ public class GameBoard : MonoBehaviour {
 	}
 
 	public void Clear () {
-        //assign empty content at first.
+        //assign empty content for content and towerContent.
 		foreach (GameTile tile in tiles) {
 			tile.Content = contentFactory.Get(GameTileContentType.Empty);
+            tile.TowerContent = contentFactory.Get(GameTileContentType.Empty);
 		}
 		spawnPoints.Clear();
 		updatingContent.Clear();
@@ -158,35 +159,29 @@ public class GameBoard : MonoBehaviour {
 	}
 
 	public void ToggleTower (GameTile tile, TowerType towerType) {
-		if (tile.Content.Type == GameTileContentType.Tower) {
-			updatingContent.Remove(tile.Content);
-            //if the same tower already exists, assign empty and find path.
-			if (((Tower)tile.Content).TowerType == towerType) {
-				tile.Content = contentFactory.Get(GameTileContentType.Empty);
-				FindPaths();
-			}
-			else {
-				tile.Content = contentFactory.Get(towerType);
-                //different from tile content, tower will be added into updating list.
-				updatingContent.Add(tile.Content);
-			}
-		}
-		else if (tile.Content.Type == GameTileContentType.Empty) {
-			tile.Content = contentFactory.Get(towerType);
-			if (FindPaths()) {
-				updatingContent.Add(tile.Content);
-			}
-			else {
-				tile.Content = contentFactory.Get(GameTileContentType.Empty);
-				FindPaths();
-			}
-		}
-		else if (tile.Content.Type == GameTileContentType.Wall) {
-            //replace wall with tower prefab.
-			tile.Content = contentFactory.Get(towerType);
-			updatingContent.Add(tile.Content);
-		}
-	}
+        //if it is a towerType
+        if (tile.TowerContent.Type == GameTileContentType.Empty)
+        {
+            tile.TowerContent = contentFactory.Get(towerType);
+            updatingContent.Add(tile.TowerContent);
+        }
+        else if(tile.TowerContent.Type == GameTileContentType.Tower)
+        {
+            updatingContent.Remove(tile.TowerContent);
+            if (((Tower)tile.TowerContent).TowerType == towerType)
+            {
+                //eliminate this tower
+                tile.TowerContent = contentFactory.Get(GameTileContentType.Empty);
+            }
+            else
+            {
+                // update this tower type
+                tile.TowerContent = contentFactory.Get(towerType);
+                updatingContent.Add(tile.TowerContent);
+            }
+        }
+
+    }
 
 	public GameTile GetSpawnPoint (int index) {
 		return spawnPoints[index];
