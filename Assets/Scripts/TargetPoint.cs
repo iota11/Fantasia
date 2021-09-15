@@ -11,16 +11,20 @@ public class TargetPoint : MonoBehaviour {
 	public static TargetPoint RandomBuffered =>
 		GetBuffered(Random.Range(0, BufferedCount));
 
+    //撒网抓鱼
 	public static bool FillBuffer (Vector3 position, float range) {
 		Vector3 top = position;
 		top.y += 3f;
+        //get how many enemy in scope
 		BufferedCount = Physics.OverlapCapsuleNonAlloc(
 			position, top, range, buffer, enemyLayerMask
 		);
 		return BufferedCount > 0;
 	}
 
+    //return an enemy in scope
 	public static TargetPoint GetBuffered (int index) {
+        //this target is the enemy targetPoint.
 		var target = buffer[index].GetComponent<TargetPoint>();
 		Debug.Assert(target != null, "Targeted non-enemy!", buffer[0]);
 		return target;

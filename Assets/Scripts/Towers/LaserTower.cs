@@ -7,7 +7,7 @@ public class LaserTower : Tower {
 
 	[SerializeField]
 	Transform turret = default, laserBeam = default;
-
+    // allocate a targetPoint space, might not be assigned as enemy's target point if nothing in scope
 	TargetPoint target;
 
 	Vector3 laserBeamScale;

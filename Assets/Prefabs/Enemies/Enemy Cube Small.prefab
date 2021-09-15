@@ -46,7 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationConfig: {fileID: 11400000, guid: f6463a21f47b1446faf597484e715ad3, type: 2}
   model: {fileID: 3856211051644105591}
-  toMove: 1
 --- !u!1 &5705819550884722837
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,8 +57,8 @@ GameObject:
   - component: {fileID: 8975327632595930418}
   - component: {fileID: 404415721213736706}
   - component: {fileID: 2748365460119005048}
-  - component: {fileID: 4922361084230985826}
   - component: {fileID: 6994145868388991008}
+  - component: {fileID: 3367110958493907318}
   m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
@@ -128,18 +127,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &4922361084230985826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5705819550884722837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59d6f61fcd80f41a49bf937819cb0e52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!135 &6994145868388991008
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -153,6 +140,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.25
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3367110958493907318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705819550884722837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d6f61fcd80f41a49bf937819cb0e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8000448914809957397
 GameObject:
   m_ObjectHideFlags: 0

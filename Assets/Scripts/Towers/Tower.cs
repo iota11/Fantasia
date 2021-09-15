@@ -10,6 +10,7 @@ public abstract class Tower : GameTileContent {
     //pull out a target from buffer
 	protected bool AcquireTarget (out TargetPoint target) {
 		if (TargetPoint.FillBuffer(transform.localPosition, targetingRange)) {
+            //randomly get a enemy targetPoint from buffer
 			target = TargetPoint.RandomBuffered;
 			return true;
 		}
