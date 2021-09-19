@@ -6,21 +6,23 @@ public class GameTile : MonoBehaviour {
 	Transform arrow = default;
 
 	GameTile north, east, south, west, nextOnPath;
-
+    public GameBoard boardHolder;
 	int distance;
 
-	GameTileContent content;
+	public GameTileContent content;
     //record tower
     GameTileContent towerContent;
 
 	public GameTileContent Content {
 		get => content;
 		set {
+            //clear out the old content.
 			Debug.Assert(value != null, "Null assigned to content!");
 			if (content != null) {
 				content.Recycle();
 			}
 			content = value;
+            content.tileHolder = this;
 			content.transform.localPosition = transform.localPosition;
 		}
 	}
@@ -36,6 +38,7 @@ public class GameTile : MonoBehaviour {
                 towerContent.Recycle();
             }
             towerContent = value;
+            towerContent.tileHolder = this;
             towerContent.transform.localPosition = transform.localPosition;
         }
     }

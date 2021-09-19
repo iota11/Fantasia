@@ -16,6 +16,9 @@ public class Game : MonoBehaviour {
 	[SerializeField]
 	WarFactory warFactory = default;
 
+    [SerializeField]
+    TurretFactory turretFactory = default;
+
 	[SerializeField]
 	GameScenario scenario = default;
 
@@ -33,8 +36,9 @@ public class Game : MonoBehaviour {
 
 	GameBehaviorCollection enemies = new GameBehaviorCollection();
 	GameBehaviorCollection nonEnemies = new GameBehaviorCollection();
+    GameBehaviorCollection turrets = new GameBehaviorCollection();
 
-	Ray TouchRay => Camera.main.ScreenPointToRay(Input.mousePosition);
+    Ray TouchRay => Camera.main.ScreenPointToRay(Input.mousePosition);
 
 	static Game instance;
 
@@ -43,6 +47,7 @@ public class Game : MonoBehaviour {
 	}
 
 	public static void SpawnEnemy (EnemyFactory factory, EnemyType type) {
+        //randomly pick up a spwan Point
 		GameTile spawnPoint = instance.board.GetSpawnPoint(
 			Random.Range(0, instance.board.SpawnPointCount)
 		);
@@ -50,6 +55,14 @@ public class Game : MonoBehaviour {
 		enemy.SpawnOn(spawnPoint);
 		instance.enemies.Add(enemy);
 	}
+
+    public static void SpawnTurret(TurretFactory factory, GameTile spawnPoint)
+    {
+        Turret turret = factory.Get();
+        Debug.Log("this is fine");
+        turret.SpawnOn(spawnPoint);
+        instance.turrets.Add(turret);
+    }
 
 	public static Explosion SpawnExplosion () {
 		Explosion explosion = instance.warFactory.Explosion;
@@ -91,8 +104,17 @@ public class Game : MonoBehaviour {
 		}
 	}
 
+    void ClearTowers()
+    {
+        board.ClearTowers();
+    }
+
 	void Update () {
-		if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            ClearTowers();
+        }
+        if (Input.GetMouseButtonDown(0)) {
 			HandleTouch();
 		}
 		else if (Input.GetMouseButtonDown(1)) {
@@ -162,6 +184,7 @@ public class Game : MonoBehaviour {
 		if (tile != null) {
 			if (Input.GetKey(KeyCode.LeftShift)) {
 				board.ToggleTower(tile, selectedTowerType);
+                //SpawnTurret(turretFactory, tile);
 			}
 			else {
 				board.ToggleWall(tile);

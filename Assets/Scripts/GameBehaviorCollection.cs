@@ -22,9 +22,13 @@ public class GameBehaviorCollection {
 		for (int i = 0; i < behaviors.Count; i++) {
             //trigger behavior gameUpdate()
 			if (!behaviors[i].GameUpdate()) {
+                //if fails, find invalid location
 				int lastIndex = behaviors.Count - 1;
+                //duplicate the last one here.
 				behaviors[i] = behaviors[lastIndex];
+                //remove the last one.
 				behaviors.RemoveAt(lastIndex);
+                //redo
 				i -= 1;
 			}
 		}

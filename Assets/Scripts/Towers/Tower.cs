@@ -6,8 +6,13 @@ public abstract class Tower : GameTileContent {
 	protected float targetingRange = 1.5f;
 
 	public abstract TowerType TowerType { get; }
-
+    public float Health =1f;
     //pull out a target from buffer
+
+    public void ApplyDamage()
+    {
+        Health -= 1;
+    }
 	protected bool AcquireTarget (out TargetPoint target) {
 		if (TargetPoint.FillBuffer(transform.localPosition, targetingRange)) {
             //randomly get a enemy targetPoint from buffer

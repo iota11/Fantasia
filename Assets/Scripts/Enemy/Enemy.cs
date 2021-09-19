@@ -10,7 +10,7 @@ public class Enemy : GameBehavior {
 
 	EnemyFactory originFactory;
 
-	GameTile tileFrom, tileTo;
+	GameTile tileFrom, tileTo, tileAimed;
 	Vector3 positionFrom, positionTo;
 	Direction direction;
 	DirectionChange directionChange;
@@ -43,8 +43,33 @@ public class Enemy : GameBehavior {
 	public float Scale { get; private set; }
 
 	float Health { get; set; }
+    // prepare for detection
+    public static int BufferedCount { get; private set; }
+    const int towerLayerMask = 1 << 10;
+    private Tower towerAimed;
+    static Collider[] buffer = new Collider[100];
 
-	public void ApplyDamage (float damage) {
+    //撒网抓鱼
+    public static bool FillBuffer(Vector3 position, float range)
+    {
+        Vector3 top = position;
+        top.y += 3f;
+        //get how many towers in scope
+        BufferedCount = Physics.OverlapCapsuleNonAlloc(
+            position, top, range, buffer, towerLayerMask
+        );
+        return BufferedCount > 0;
+    }
+
+    public static Tower GetBuffered(int index)
+    {
+        //this target is the enemy targetPoint.
+        var target = buffer[index].GetComponent<Tower>();
+        Debug.Assert(target != null, "Targeted non-tower!", buffer[0]);
+        return target;
+    }
+
+    public void ApplyDamage (float damage) {
 		Debug.Assert(damage >= 0f, "Negative damage applied.");
 		Health -= damage;
 	}
@@ -85,7 +110,13 @@ public class Enemy : GameBehavior {
         progress += 0;
         if (true)
         {
-            if (tileFrom.TowerContent.Type == GameTileContentType.Empty)
+            if (FillBuffer(transform.position, 2))
+            {
+                progress += 0;
+                //towerAimed = GetBuffered(0);
+                //towerAimed.ApplyDamage();
+            }
+            else
             {
                 progress += Time.deltaTime * progressFactor;
             }
@@ -139,8 +170,11 @@ public class Enemy : GameBehavior {
 		animator.PlayIntro();
 		targetPointCollider.enabled = false;
 	}
+ 
 
-	public void SpawnOn (GameTile tile) {
+
+
+    public void SpawnOn (GameTile tile) {
 		tileFrom = tile;
 		tileTo = tile.NextTileOnPath;
 		progress = 0f;

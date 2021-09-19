@@ -75,6 +75,7 @@ public class GameBoard : MonoBehaviour {
 		for (int i = 0, y = 0; y < size.y; y++) {
 			for (int x = 0; x < size.x; x++, i++) {
 				GameTile tile = tiles[i] = Instantiate(tilePrefab);
+                tile.boardHolder = this;
 				tile.transform.SetParent(transform, false);
 				tile.transform.localPosition = new Vector3(
 					x - offset.x, 0f, y - offset.y
@@ -95,6 +96,23 @@ public class GameBoard : MonoBehaviour {
 		}
 		Clear();
 	}
+
+    public void ClearTowers()
+    {
+        foreach(GameTile tile in tiles)
+        {
+            if(tile.TowerContent.Type != GameTileContentType.Empty)
+            {
+                DestroyTower(tile);
+            }
+        }
+    }
+
+    public void DestroyTower(GameTile tile)
+    {
+        updatingContent.Remove(tile.TowerContent);
+        tile.TowerContent = contentFactory.Get(GameTileContentType.Empty);
+    }
 
 	public void Clear () {
         //assign empty content for content and towerContent.
