@@ -18,6 +18,7 @@ public class Enemy : GameBehavior {
 	float progress, progressFactor;
 	float pathOffset;
 	float speed;
+    Vector3 worldPos; 
 
 	EnemyAnimator animator;
 
@@ -115,10 +116,12 @@ public class Enemy : GameBehavior {
         progress += 0;
         if (true)
         {
-            if (FillBuffer(transform.position, Range))
+            if (FillBuffer(model.transform.position, Range))
             {
                 progress += 0;
                 towerAimed = GetBuffered(0);
+                Debug.DrawLine(model.transform.GetChild(0).position, towerAimed.transform.position, Color.blue);
+
                 towerAimed.ApplyDamage(Damage * Time.deltaTime);
             }
             else
@@ -180,7 +183,7 @@ public class Enemy : GameBehavior {
 	}
  
 
-
+   
 
     public void SpawnOn (GameTile tile) {
 		tileFrom = tile;
@@ -275,4 +278,7 @@ public class Enemy : GameBehavior {
 	void OnDestroy () {
 		animator.Destroy();
 	}
+
+
+
 }
