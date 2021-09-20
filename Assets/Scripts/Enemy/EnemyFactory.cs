@@ -19,7 +19,13 @@ public class EnemyFactory : GameObjectFactory {
 
 		[FloatRangeSlider(10f, 1000f)]
 		public FloatRange health = new FloatRange(100f);
-	}
+
+        [FloatRangeSlider(0.1f, 10f)]
+        public FloatRange range = new FloatRange(1f);
+
+        [FloatRangeSlider(0f, 10f)]
+        public FloatRange damage = new FloatRange(1f);
+    }
 
 	[SerializeField]
 	EnemyConfig small = default, medium = default, large = default;
@@ -42,7 +48,9 @@ public class EnemyFactory : GameObjectFactory {
 			config.scale.RandomValueInRange,
 			config.speed.RandomValueInRange,
 			config.pathOffset.RandomValueInRange,
-			config.health.RandomValueInRange
+			config.health.RandomValueInRange,
+            config.range.RandomValueInRange,
+            config.damage.RandomValueInRange
 		);
 		return instance;
 	}

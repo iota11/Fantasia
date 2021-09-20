@@ -6,12 +6,15 @@ public abstract class Tower : GameTileContent {
 	protected float targetingRange = 1.5f;
 
 	public abstract TowerType TowerType { get; }
-    public float Health =1f;
+        
+    [SerializeField, Range(0f, 200f)]
+    protected float Health = 100f;
     //pull out a target from buffer
 
-    public void ApplyDamage()
+    public void ApplyDamage(float damage)
     {
-        Health -= 1;
+        Debug.Assert(damage >= 0f, "Negative damage applied.");
+        Health -= damage;
     }
 	protected bool AcquireTarget (out TargetPoint target) {
 		if (TargetPoint.FillBuffer(transform.localPosition, targetingRange)) {

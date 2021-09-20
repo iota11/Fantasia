@@ -27,7 +27,7 @@ public class LaserTower : Tower {
             //or scale it down to invisible
 			laserBeam.localScale = Vector3.zero;
 		}
-        Health -= Time.deltaTime;
+        //Health -= Time.deltaTime;
         if (Health <= 0f)
         {
             tileHolder.boardHolder.DestroyTower(tileHolder);

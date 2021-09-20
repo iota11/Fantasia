@@ -44,13 +44,15 @@ public class Enemy : GameBehavior {
 
 	float Health { get; set; }
     // prepare for detection
+    float Range { get; set; }
+    float Damage { get; set; }
     public static int BufferedCount { get; private set; }
     const int towerLayerMask = 1 << 10;
-    private Tower towerAimed;
+    public Tower towerAimed;
     static Collider[] buffer = new Collider[100];
 
     //撒网抓鱼
-    public static bool FillBuffer(Vector3 position, float range)
+    public bool FillBuffer(Vector3 position, float range)
     {
         Vector3 top = position;
         top.y += 3f;
@@ -61,13 +63,16 @@ public class Enemy : GameBehavior {
         return BufferedCount > 0;
     }
 
-    public static Tower GetBuffered(int index)
+    public Tower GetBuffered(int index)
     {
-        //this target is the enemy targetPoint.
-        var target = buffer[index].GetComponent<Tower>();
+        var target = buffer[index].transform.root.GetComponent<Tower>();
+        var collider = buffer[index];
+        Debug.Assert(target != null, "no collider");
         Debug.Assert(target != null, "Targeted non-tower!", buffer[0]);
         return target;
     }
+
+
 
     public void ApplyDamage (float damage) {
 		Debug.Assert(damage >= 0f, "Negative damage applied.");
@@ -110,11 +115,11 @@ public class Enemy : GameBehavior {
         progress += 0;
         if (true)
         {
-            if (FillBuffer(transform.position, 2))
+            if (FillBuffer(transform.position, Range))
             {
                 progress += 0;
-                //towerAimed = GetBuffered(0);
-                //towerAimed.ApplyDamage();
+                towerAimed = GetBuffered(0);
+                towerAimed.ApplyDamage(Damage * Time.deltaTime);
             }
             else
             {
@@ -160,13 +165,16 @@ public class Enemy : GameBehavior {
 	}
 
 	public void Initialize (
-		float scale, float speed, float pathOffset, float health
+		float scale, float speed, float pathOffset, float health, float range, float damage
 	) {
 		Scale = scale;
 		model.localScale = new Vector3(scale, scale, scale);
 		this.speed = speed;
 		this.pathOffset = pathOffset;
 		Health = health;
+        Range = range;
+        Damage = damage;
+
 		animator.PlayIntro();
 		targetPointCollider.enabled = false;
 	}

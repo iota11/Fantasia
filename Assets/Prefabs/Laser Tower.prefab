@@ -313,7 +313,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 4
+  tileHolder: {fileID: 0}
   targetingRange: 2.5
+  Health: 128
   damagePerSecond: 20
   turret: {fileID: 5779718188782915748}
   laserBeam: {fileID: 6186877083689784730}
